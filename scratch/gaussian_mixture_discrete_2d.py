@@ -1,20 +1,25 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Sat Nov 18 03:24:43 2017
-
-@author: hiroyukiinoue
-"""
 
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import multivariate_normal
 
 def generate_nice_covariance_for_ellipse(k):
-    ''' this function outputs an covariance matrices avoiding generating too much squashed ellipses'''
+    """this function outputs an covariance matrices
+       avoiding generating too much squashed ellipses
+        
+    # Arguements
+        k: number of covariance matrices. shape = (k, 2, 2).
+            
+    # Returns
+        sg:     covariance matrix.
+    """
     sg = np.zeros((k, 2, 2))
     for i in range(k):
-        eig = 2 * np.random.rand(2) + 0.5 # adding 0.2 and normalize to avoid generating smashed ellipses
+        # adding 0.2 and normalize to avoid generating smashed ellipses
+        eig = 2 * np.random.rand(2)
+        eig += 0.5
         ang = np.pi * np.random.rand(1) # in radian
         c, s = np.cos(ang), np.sin(ang)
         rot = np.matrix(np.asarray([[c, s], [-s, c]]))
@@ -23,8 +28,18 @@ def generate_nice_covariance_for_ellipse(k):
         sg[i] = np.dot(sgrt, sgrt.T)
     return sg
 
+
 def contour_ellipse(mu, sg):
-    '''this function outputs an elliptic contour of a Gaussian based on its mu and sg.'''
+    """this function outputs an elliptic contour 
+       of a Gaussian based on its mu and sg.
+        
+    # Arguements
+        mu:     mean.
+        sg:     covariance matrix.
+
+    # Returns
+        elp:    contour of ellipse.
+    """
     theta = np.linspace(0,2*np.pi, 100)
     eg, egv = np.linalg.eig(sg) # eigen values/vectors of the covariant matrices
     elp_orig = np.vstack((eg[0] * np.cos(theta), eg[1] * np.sin(theta))) 
@@ -32,12 +47,30 @@ def contour_ellipse(mu, sg):
     elp = mu[:,np.newaxis] + elp_rot # translate the ellipse
     return elp
 
+
 def generate_synthetic_data(nm, ns, dim):
-    '''synthesize a hypothetical data set'''
+    """synthesize a hypothetical data set
+        
+    # Arguements
+        nm:  number of mixed gaussians.
+        ns:  number of samples.
+        dim: dimension of the problem.
+            
+    # Returns
+        mu:     mean.
+        sg:     std.
+        lm:     abbr of lambda, meaning mixture ratio.
+        lm_ind: tail index of each mix.
+        smp:    samples.
+        L_true: average log likelihood.
+    """
     mu = 3.0 * np.random.rand(nm, dim) +\
-         7.5*np.array([[1., 0.],[0., 1.],[1., 1.]]) # mean
-    sg = generate_nice_covariance_for_ellipse(nm)   # this is to ensure the positive-definiteness of the sigma
-    lm = np.random.rand(nm) + 0.1                   # lambda : ratio of the mixture. 0.1 is to make sure it won't generate too tiny weight
+         7.5*np.array([[1., 0.],[0., 1.],[1., 1.]])
+    # this is to ensure the positive-definiteness of the sigma
+    sg = generate_nice_covariance_for_ellipse(nm)
+    # lambda : ratio of the mixture.
+    # 0.1 is to make sure it won't generate too tiny weight
+    lm = np.random.rand(nm) + 0.1
     lm /= lm.sum()
     lm_ind = np.round(np.cumsum(lm) * ns).astype(int)
     lm_ind = np.insert(lm_ind, 0, 0)
@@ -45,15 +78,31 @@ def generate_synthetic_data(nm, ns, dim):
     smp = np.zeros((dim, ns))
     gs_true = np.zeros(ns)
     for k in range(nm):
-        this_smp = np.random.multivariate_normal(mu[k], sg[k], lm_ind[k+1] - lm_ind[k]).T
+        this_smp = np.random.multivariate_normal\
+                            (mu[k], sg[k], lm_ind[k+1] - lm_ind[k]).T
         smp[:, lm_ind[k]:lm_ind[k + 1]] = this_smp
-        gs_true[lm_ind[k]:lm_ind[k + 1]] = multivariate_normal(mu[k], sg[k]).pdf(this_smp.T)
+        gs_true[lm_ind[k]:lm_ind[k + 1]] = multivariate_normal\
+                                          (mu[k], sg[k]).pdf(this_smp.T)
         
-    L_true = np.log(gs_true).sum() / ns # average log likelihood
+    L_true = np.log(gs_true).sum() / ns
     return mu, sg, lm, lm_ind, smp, L_true
 
+
 def plot_synthetic_data(smp, mu, sg, lm, lm_ind, nm, ns):
-    '''plot the hypothetical data set'''
+    """plot the hypothetical data set
+        
+    # Arguements
+        smp:    samples.
+        mu:     mean.
+        sg:     std.
+        lm:     abbr of lambda, meaning mixture ratio.
+        lm_ind: tail index of each mix.
+        nm:     number of mixed gaussians.
+        ns:     number of samples.
+            
+    # Returns
+        None. plot the data.
+    """
     clrs1 = [(0.6, 0, 0), (0, 0.6, 0), (0, 0, 0.6)]
     clrs2 = [(1, 0.2, 0), (0, 1, 0), (0, 0.6, 1)]
     for k in range(nm):
@@ -62,25 +111,64 @@ def plot_synthetic_data(smp, mu, sg, lm, lm_ind, nm, ns):
        elp = contour_ellipse(mu[k], sg[k])
        plt.plot(elp[0], elp[1], color=clrs2[k], ls='-')
 
+
 def generate_initial_state(nm, ns, dim):
-    '''this will be the initial parameters for the EM algorithm'''
-    mue = 10 * np.random.rand(nm, dim)             # initial mean (to be Estimated)
-    sge = generate_nice_covariance_for_ellipse(nm) # initial std  (to be Estimated)
+    """this will be the initial parameters for the EM algorithm
+        
+    # Arguements
+        nm:  number of mixed gaussians.
+        ns:  number of samples.
+        dim: dimension of the problem.
+            
+    # Returns
+        mue:     estimated mean.
+        sge:     estimated std (inferred would be a better term, perhasp).
+        lme:     abbr of lambda, meaning estimated mixture ratio estimated.
+    """
+    mue = 10 * np.random.rand(nm, dim)
+    sge = generate_nice_covariance_for_ellipse(nm)
     lme = np.random.rand(nm)
-    lme /= lme.sum()                      # initial mixture ratio (to be Estimated)
+    lme /= lme.sum()
     return mue, sge, lme
 
+
 def e_step(smp, mue, sge, lme, nm, ns):
-    '''as the name says'''
+    """E-step.
+        
+    # Arguements
+        smp:    samples.
+        mue:    estimated mean.
+        sge:    estimated std.
+        lme:    abbr of lambda, meaning estimated mixture ratio estimated.  
+        nm:     number of mixed gaussians.
+        ns:     number of samples.
+            
+    # Returns
+        r:      responsibility.
+        L_infer: inferred avrage log likelihood at this step.
+    """
     gs = np.zeros((nm, ns))
     for k in range(nm):
         gs[k, :] = lme[k] * multivariate_normal(mue[k], sge[k]).pdf(smp.T)
     r = gs / gs.sum(axis=0) # sum over classes
     L_infer = np.log(gs.sum(axis=0)).sum() / ns # average log likelihood
     return r, L_infer
-    
+
+
 def m_step(smp, mue, sge, lme, r, nm, ns):
-    '''as the name says'''
+    """M-step.
+        
+    # Arguements
+        smp:    samples.
+        r:      responsibility.
+        nm:     number of mixed gaussians.
+        ns:     number of samples.
+            
+    # Returns
+        mue:    estimated mean.
+        sge:    estimated std.
+        lme:    abbr of lambda, meaning estimated mixture ratio estimated.  
+    """
     lme = r.sum(axis=1)/r.sum()
     for k in range(nm):
         mue[k] = (r[k] * smp).sum(axis=1) / r[k].sum()
@@ -88,8 +176,22 @@ def m_step(smp, mue, sge, lme, r, nm, ns):
         sge[k] = np.dot((r[k] * dlts), dlts.T) / r[k].sum()
     return mue, sge, lme
 
+
 def plot_em_steps(smp, r, mue, sge, lme, nm, ns):
-    '''plot the each step of EM algorithm'''
+    """plot the each step of EM algorithm
+        
+    # Arguements
+        smp:    samples.
+        mu:     mean.
+        sg:     std.
+        lm:     abbr of lambda, meaning mixture ratio.
+        lm_ind: tail index of each mix.
+        nm:     number of mixed gaussians.
+        ns:     number of samples.
+            
+    # Returns
+        None. plot the data.
+    """
     clr = 0.6
     clrs = [(1, 0.2, 0), (0, 1, 0), (0, 0.6, 1)]
     for i in range(ns):
@@ -99,10 +201,20 @@ def plot_em_steps(smp, r, mue, sge, lme, nm, ns):
         elp = contour_ellipse(mue[i], sge[i])
         plt.plot(elp[0], elp[1], color=c, ls='-')
 
-def main(nm, ns, dim, Nrep):
-    '''usually the repetition of EM steps continues till the log likelihood 
+
+def main():
+    """usually the repetition of EM steps continues till the log likelihood 
        saturates. For the sake of plotting every step, I use a for loop 
-       instead of a while loop.'''
+       instead of a while loop.
+        
+    # Arguements
+            
+    # Returns
+    """
+    dim = 2  # dimension of the problem. Suppose we work on a 2D problem.
+    Nrep = 16 # number of repetition of EM steps
+    nm = 3    # number of mixed gaussian. Here, we set it to 3.
+    ns= 300  # number of samples
     
     mu, sg, lm, lm_ind, smp, L_true = generate_synthetic_data(nm, ns, dim)
     plt.figure(1, figsize=(5,4))
@@ -144,8 +256,4 @@ def main(nm, ns, dim, Nrep):
 
     
 if __name__ == '__main__':
-    dim = 2  # dimension of the problem. Suppose we work on a 2D problem.
-    Nrep = 16 # number of repetition of EM steps
-    num_mixedgs = 3    # number of mixed gaussian. Here, we set it to 3.
-    num_samples = 300  # number of samples
-    main(num_mixedgs, num_samples, dim, Nrep)
+    main()
