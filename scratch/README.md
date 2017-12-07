@@ -22,4 +22,3 @@ http://www.computervisionmodels.com/
   - Sparse linear regression
   - Dual linear regression
   - Relevance vector regression
-  - Regression to multivariate data
