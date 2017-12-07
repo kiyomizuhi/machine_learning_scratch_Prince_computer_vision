@@ -17,8 +17,7 @@ http://www.computervisionmodels.com/
   - Maximum Likelihood Linear Regression
   - Bayesian linear regression
   - Non-linear regression
-  - Kernels and kernel trick
-  - Gaussian process regression
+  - Kernel trick and Gaussian process regression
   - Sparse linear regression
   - Dual linear regression
   - Relevance vector regression
