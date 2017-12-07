@@ -8,23 +8,16 @@ http://www.computervisionmodels.com/
 
 ### EM algorithms (discrete & continuous latent variables)
   - Generalities
-  - Theory - Gaussian Mixture (discrete mixture)
-  - Implementation - Gaussian Mixture (discrete mixture, 1D)
-  - Implementation - Gaussian Mixture (discrete mixture, 2D)
-  - Theory - Gaussian Mixture (continuous mixture in covariance)
-  - Implementation - Gaussian Mixture (continuous mixture in covariance)
-  - Theory - Gaussian Mixture (continuous mixture in mean) AKA Factor Analysis
-  - Implementation - Gaussian Mixture (continuous mixture in mean) in 2D
-  - Theory : Discrete Student's-T Mixture
-  - Implementation : Discrete Student's-T Mixture in 2D
+  - Gaussian Mixture (discrete mixture) 
+  - Gaussian Mixture (continuous mixture in covariance)
+  - Gaussian Mixture (continuous mixture in mean) AKA Factor Analysis
+  - Discrete Student's-T Mixture
 
 ### Regression method
   - Maximum Likelihood Linear Regression
   - Bayesian linear regression
   - Non-linear regression
-  - Kernels and kernel trick
-  - Gaussian process regression
+  - Kernel trick and Gaussian process regression
   - Sparse linear regression
   - Dual linear regression
   - Relevance vector regression
-  - Regression to multivariate data
