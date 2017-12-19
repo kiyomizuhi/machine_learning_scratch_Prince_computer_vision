@@ -6,7 +6,6 @@ http://www.computervisionmodels.com/
 
 The diagrams below are from the book therein.
 
-## Table of contents:
 
 ### EM algorithms (discrete & continuous latent variables)
   - Generalities
@@ -41,3 +40,19 @@ The diagrams below are from the book therein.
   - Multi-class logistic regression
   
   <img width="924" alt="screen shot 2017-12-14 at 2 19 11 pm" src="https://user-images.githubusercontent.com/19827262/33992106-fff0c5c8-e0d9-11e7-87f0-2f56b13a0f8c.png">
+
+This section is based on CS231
+CS231n Convolutional Neural Networks for Visual Recognition.
+http://cs231n.github.io/neural-networks-3/
+
+### Gradient descent optimizations
+- Vanilla Gradient Descent
+- Stochastic Gradient Descent
+- Minibatch Gradient Descent
+- Momentum
+- Nesterov Momentum
+- Adagrad
+- RMS Prop
+- Adam
+
+<img width="730" alt="screen shot 2017-12-19" src="https://user-images.githubusercontent.com/19827262/34137812-52d96242-e475-11e7-92f6-487da3675e7b.png">
