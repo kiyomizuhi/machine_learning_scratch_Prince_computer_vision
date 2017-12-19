@@ -39,11 +39,12 @@ http://www.computervisionmodels.com/
   
   <img width="924" alt="screen shot 2017-12-14 at 2 19 11 pm" src="https://user-images.githubusercontent.com/19827262/33992106-fff0c5c8-e0d9-11e7-87f0-2f56b13a0f8c.png">
 
+
+## Gradient descent optimizations
 This section is based on CS231
 CS231n Convolutional Neural Networks for Visual Recognition.
 http://cs231n.github.io/neural-networks-3/
 
-## Gradient descent optimizations
 - Vanilla Gradient Descent
 - Stochastic Gradient Descent
 - Minibatch Gradient Descent
