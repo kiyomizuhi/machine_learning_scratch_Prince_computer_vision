@@ -41,7 +41,7 @@ http://www.computervisionmodels.com/
 
 
 ## Gradient descent optimizations
-This section is based on CS231
+This section is based on CS231.
 CS231n Convolutional Neural Networks for Visual Recognition.
 http://cs231n.github.io/neural-networks-3/
 
