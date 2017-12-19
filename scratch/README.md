@@ -55,4 +55,5 @@ http://cs231n.github.io/neural-networks-3/
 - RMS Prop
 - Adam
 
-<img width="730" alt="screen shot 2017-12-19" src="https://user-images.githubusercontent.com/19827262/34137812-52d96242-e475-11e7-92f6-487da3675e7b.png">
+<img width="721" alt="screen shot 2017-12-19" src="https://user-images.githubusercontent.com/19827262/34137947-f0a09874-e475-11e7-9a3d-f12c54b004c0.png">
+
