@@ -1,6 +1,6 @@
 # machine-learning
 
-Here I follow the following book and implement the algorithms therein (mainly in the chapter 2) from scratch as a means to grasp the concepts of the probabilistic models "under the hood" of higher-level libraries and to familiarize myself with translating the math to Numpy, Scipy and visualizations. I found this book very concise and logically transparent, which may serve as a good place to exercise above.
+Here I follow the following book and implement the algorithms therein (mainly in the chapter 2) from scratch as a means to grasp the concepts of the probabilistic models "under the hood" of higher-level libraries and to familiarize myself with translating the math to Numpy, Scipy and visualizations. I found this book very concise and logically transparent, which should serve as a good place to exercise above.
 
 Computer Vision: Models, Learning, and Inference by Dr Simon J. D. Prince https://www.amazon.com/dp/1107011795/ref=cm_sw_r_tw_dp_U_x_.jwjAbJCPWTQR
 http://www.computervisionmodels.com/
