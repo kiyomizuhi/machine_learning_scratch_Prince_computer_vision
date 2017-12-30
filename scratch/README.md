@@ -1,9 +1,8 @@
-# machine-learning
-
-Here I follow the following book and implement the algorithms therein (mainly in the chapter 2) from scratch as a means to grasp the concepts of the probabilistic models "under the hood" of higher-level libraries and to familiarize myself with translating the math to Numpy, Scipy and visualizations. I found this book very concise and logically transparent, which serves as a good place to exercise above.
+Here I follow the following book and implement the algorithms therein (mainly in the chapter 2) from scratch as a means to grasp the concepts of the probabilistic models "under the hood" of higher-level libraries and to familiarize myself with translating the math to Numpy, Scipy and visualizations. I found this book very concise and logically transparent, which should serve as a good place to exercise above.
 
 Computer Vision: Models, Learning, and Inference by Dr Simon J. D. Prince https://www.amazon.com/dp/1107011795/ref=cm_sw_r_tw_dp_U_x_.jwjAbJCPWTQR
 http://www.computervisionmodels.com/
+The images below are taken from this book.
 
 
 ## EM algorithms (discrete & continuous latent variables)
@@ -54,5 +53,6 @@ http://cs231n.github.io/neural-networks-3/
 - RMS Prop
 - Adam
 
+The image below is taken from the link above.
 <img width="721" alt="screen shot 2017-12-19" src="https://user-images.githubusercontent.com/19827262/34137947-f0a09874-e475-11e7-9a3d-f12c54b004c0.png">
 
